@@ -3,9 +3,12 @@ using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using EnvDTE;
+using EnvDTE80;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
@@ -53,6 +56,16 @@ namespace BuildMvcViews
             // any Visual Studio service because at this point the package object is created but
             // not sited yet inside Visual Studio environment. The place to do all the other
             // initialization is the Initialize method.
+        }
+
+        public void BuildCurrentProjectWithBuildMvcViews()
+        {
+            var dte = (DTE2)GetService(typeof(EnvDTE.DTE));
+            var project = dte.SelectedItems.OfType<SelectedItem>().FirstOrDefault()?.Project;
+            if (project == null) return;
+
+            var solutionBuild = dte.Solution.SolutionBuild;
+            solutionBuild.BuildProject(solutionBuild.ActiveConfiguration.Name, project.UniqueName, true);
         }
 
         #region Package Members
