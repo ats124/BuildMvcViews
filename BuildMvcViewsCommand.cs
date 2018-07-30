@@ -27,7 +27,7 @@ namespace BuildMvcViews
         /// <summary>
         /// VS Package that provides this command, not null.
         /// </summary>
-        private readonly AsyncPackage package;
+        private readonly BuildMvcViewsCommandPackage package;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BuildMvcViewsCommand"/> class.
@@ -37,7 +37,7 @@ namespace BuildMvcViews
         /// <param name="commandService">Command service to add command to, not null.</param>
         private BuildMvcViewsCommand(AsyncPackage package, OleMenuCommandService commandService)
         {
-            this.package = package ?? throw new ArgumentNullException(nameof(package));
+            this.package = (BuildMvcViewsCommandPackage)package ?? throw new ArgumentNullException(nameof(package));
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
@@ -89,6 +89,7 @@ namespace BuildMvcViews
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
+
             string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
             string title = "BuildMvcViewsCommand";
 
