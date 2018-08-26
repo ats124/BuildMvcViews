@@ -75,7 +75,7 @@ namespace BuildMvcViews
             // the UI thread.
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
+            OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
             Instance = new BuildMvcViewsCommand(package, commandService);
         }
 
